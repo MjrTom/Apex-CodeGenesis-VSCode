@@ -29,14 +29,16 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 
 	useEvent("message", handleMessage)
 
+	const authorizedDomains = useMemo(() => ["github.com", "gitlab.com"], [])
+
 	const githubAuthorUrl = useMemo(() => {
 		const url = new URL(item.githubUrl)
 		const pathParts = url.pathname.split("/")
-		if (pathParts.length >= 2) {
+		if (pathParts.length >= 2 && authorizedDomains.includes(url.hostname)) {
 			return `${url.origin}/${pathParts[1]}`
 		}
-		return item.githubUrl
-	}, [item.githubUrl])
+		return null
+	}, [item.githubUrl, authorizedDomains])
 
 	return (
 		<>
@@ -54,18 +56,19 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 					}
 				`}
 			</style>
-			<a
-				href={item.githubUrl}
-				className="mcp-card"
-				style={{
-					padding: "14px 16px",
-					display: "flex",
-					flexDirection: "column",
-					gap: 12,
-					cursor: isLoading ? "wait" : "pointer",
-					textDecoration: "none",
-					color: "inherit",
-				}}>
+			{githubAuthorUrl && (
+				<a
+					href={githubAuthorUrl}
+					className="mcp-card"
+					style={{
+						padding: "14px 16px",
+						display: "flex",
+						flexDirection: "column",
+						gap: 12,
+						cursor: isLoading ? "wait" : "pointer",
+						textDecoration: "none",
+						color: "inherit",
+					}}>
 				{/* Main container with logo and content */}
 				<div style={{ display: "flex", gap: "12px" }}>
 					{/* Logo */}
@@ -275,7 +278,8 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 						/>
 					</div>
 				</div>
-			</a>
+				</a>
+			)}
 		</>
 	)
 }
