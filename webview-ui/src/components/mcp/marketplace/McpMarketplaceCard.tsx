@@ -30,15 +30,19 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 
 	useEvent("message", handleMessage)
 
+	const allowedDomains = useMemo(() => ["github.com", "trusted-domain.com"], [])
+
 	const githubAuthorUrl = useMemo(() => {
 		const sanitizedUrl = DOMPurify.sanitize(item.githubUrl)
 		const url = new URL(sanitizedUrl)
-		const pathParts = url.pathname.split("/")
-		if (pathParts.length >= 2) {
-			return `${url.origin}/${pathParts[1]}`
+		if (allowedDomains.includes(url.hostname)) {
+			const pathParts = url.pathname.split("/")
+			if (pathParts.length >= 2) {
+				return `${url.origin}/${pathParts[1]}`
+			}
 		}
-		return sanitizedUrl
-	}, [item.githubUrl])
+		return ""
+	}, [item.githubUrl, allowedDomains])
 
 	return (
 		<>
@@ -73,7 +77,7 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 					{/* Logo */}
 					{item.logoUrl && (
 						<img
-							src={DOMPurify.sanitize(item.logoUrl)}
+							src={allowedDomains.includes(new URL(DOMPurify.sanitize(item.logoUrl)).hostname) ? DOMPurify.sanitize(item.logoUrl) : ""}
 							alt={`${item.name} logo`}
 							style={{
 								width: 42,
