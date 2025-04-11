@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { McpMarketplaceItem, McpServer } from "../../../../../src/shared/mcp"
 import { vscode } from "../../../utils/vscode"
 import { useEvent } from "react-use"
+import DOMPurify from "dompurify"
 
 interface McpMarketplaceCardProps {
 	item: McpMarketplaceItem
@@ -30,12 +31,13 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 	useEvent("message", handleMessage)
 
 	const githubAuthorUrl = useMemo(() => {
-		const url = new URL(item.githubUrl)
+		const sanitizedUrl = DOMPurify.sanitize(item.githubUrl)
+		const url = new URL(sanitizedUrl)
 		const pathParts = url.pathname.split("/")
 		if (pathParts.length >= 2) {
 			return `${url.origin}/${pathParts[1]}`
 		}
-		return item.githubUrl
+		return sanitizedUrl
 	}, [item.githubUrl])
 
 	return (
@@ -55,7 +57,7 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 				`}
 			</style>
 			<a
-				href={item.githubUrl}
+				href={DOMPurify.sanitize(item.githubUrl)}
 				className="mcp-card"
 				style={{
 					padding: "14px 16px",
