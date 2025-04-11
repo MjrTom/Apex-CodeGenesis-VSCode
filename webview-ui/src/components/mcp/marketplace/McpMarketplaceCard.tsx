@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { McpMarketplaceItem, McpServer } from "../../../../../src/shared/mcp"
 import { vscode } from "../../../utils/vscode"
 import { useEvent } from "react-use"
+import DOMPurify from "dompurify"
 
 interface McpMarketplaceCardProps {
 	item: McpMarketplaceItem
@@ -71,7 +72,7 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 					{/* Logo */}
 					{item.logoUrl && (
 						<img
-							src={item.logoUrl}
+							src={DOMPurify.sanitize(item.logoUrl)}
 							alt={`${item.name} logo`}
 							style={{
 								width: 42,
