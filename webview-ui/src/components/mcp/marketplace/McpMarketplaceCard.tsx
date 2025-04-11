@@ -73,7 +73,7 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 					{/* Logo */}
 					{item.logoUrl && (
 						<img
-							src={item.logoUrl}
+							src={DOMPurify.sanitize(item.logoUrl)}
 							alt={`${item.name} logo`}
 							style={{
 								width: 42,
