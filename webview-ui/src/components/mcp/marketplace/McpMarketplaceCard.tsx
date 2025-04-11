@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { McpMarketplaceItem, McpServer } from "../../../../../src/shared/mcp"
 import { vscode } from "../../../utils/vscode"
 import { useEvent } from "react-use"
+import DOMPurify from "dompurify"
 
 interface McpMarketplaceCardProps {
 	item: McpMarketplaceItem
@@ -35,7 +36,7 @@ const McpMarketplaceCard = ({ item, installedServers }: McpMarketplaceCardProps)
 		if (pathParts.length >= 2) {
 			return `${url.origin}/${pathParts[1]}`
 		}
-		return item.githubUrl
+		return DOMPurify.sanitize(item.githubUrl)
 	}, [item.githubUrl])
 
 	return (
