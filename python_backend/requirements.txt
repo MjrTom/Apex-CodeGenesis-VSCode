@@ -5,7 +5,7 @@ agno==1.3.2 # Added for RAG/Knowledge Graph capabilities
 lancedb==0.21.2 # Added dependency for agno
 numpy==2.2.4 # Added dependency for lancedb
 gitignore-parser==0.1.12 # Added for parsing .agentignore files
-python-dotenv==1.1.0 # Added for loading .env files (used by config_loader)
+python-dotenv==1.2.2 # Added for loading .env files (used by config_loader)
 # We might need 'werkzeug' if we adapt the example server later, but not for stdio
 openai==1.75.0 # Mapped from npm v4.95.0
 anthropic==0.49.0
