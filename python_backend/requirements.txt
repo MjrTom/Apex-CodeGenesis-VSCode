@@ -1,7 +1,7 @@
 json-rpc[tox]==1.15.0
 google-genai==1.11.0
 pyyaml==6.0.2
-agno==1.3.2 # Added for RAG/Knowledge Graph capabilities
+agno==2.3.24 # Added for RAG/Knowledge Graph capabilities
 lancedb==0.21.2 # Added dependency for agno
 numpy==2.2.4 # Added dependency for lancedb
 gitignore-parser==0.1.12 # Added for parsing .agentignore files
